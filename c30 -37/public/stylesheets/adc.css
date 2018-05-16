@@ -1,0 +1,33 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.addbutton {
+  margin-bottom: 50px;
+}
+
+.geser {
+  margin-left: 172px;
+  margin-top: 5px;
+}
+
+.magic {
+  background-color:#f5f5f5;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #f0f0f0;
+  display: none;
+}
+
+.magicupdate {
+  background-color:#ffc78c;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #ffa13f;
+  display: none;
+}

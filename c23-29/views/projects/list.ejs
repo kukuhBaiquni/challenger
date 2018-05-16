@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Projects</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel='stylesheet' href="/stylesheets/2.css">
+</head>
+<body>
+  <% include ../partials/menu %>
+  <h1 style="padding-left: 15px">Projects</h1><hr>
+  <h2 style="padding-left: 15px">Filters</h2>
+  <form action="" method="get">
+    <input type="hidden" name="page" value="1">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="custom-control custom-checkbox" id="tengah">
+          <input type="checkbox" class="custom-control-input" id="cid" name="cid" <%= (query.cid) ? " checked" : ""; %>>
+          <label class="custom-control-label" for="cid">ID
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <input class="form-control" type="number" placeholder="ID" name="id" value="<%= (query.id) %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="custom-control custom-checkbox" id="tengah">
+          <input type="checkbox" class="custom-control-input" id="cnama" name="cname" <%= (query.cname) ? " checked" : ""; %>>
+          <label class="custom-control-label" for="cnama">Name
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <input class="form-control" type="text" placeholder="Name" name="name" value="<%= (query.name) %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="custom-control custom-checkbox" id="tengah">
+          <input type="checkbox" class="custom-control-input" id="cmember" name="cmember">
+          <label class="custom-control-label" for="cmember">Member
+          </label>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <select class="custom-select form-control" name="member">
+          <option value="" selected>Choose the member...</option>
+          <% for(let i=0; i < users.length; i++){ %>
+            <option value="<%= users[i].userid %>"> <%= users[i].firstname %>  <%= users[i].lastname %></option>
+            <% } %>
+          </select>
+        </div>
+      </div>
+      <button style="margin-left: 170px" type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <h2 style="padding-left: 15px">Option</h2>
+    <div class="row">
+      <div class="col-md-1"><h6 style="padding-left: 15px">Columns</h6></div>
+      <div class="col-md-3">
+        <form action="/projects/projectcolumns" method="post">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ocid" value=true name="ocid" <%= (projectcolumns.id) ? "checked" : "" %>>
+            <label class="custom-control-label" for="ocid"><b>ID</b>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div style="margin-left: 162px" class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="ocname" value=true name="ocname" <%= (projectcolumns.name) ? "checked" : "" %>>
+        <label class="custom-control-label" for="ocname"><b>Name</b>
+        </label>
+      </div>
+      <div style="margin-left: 162px" class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="ocmember" value=true name="ocmembers" <%= (projectcolumns.members) ? "checked" : "" %>>
+        <label class="custom-control-label" for="ocmember"><b>Member</b>
+        </label>
+      </div><br>
+      <button style="margin-left: 10px" type="submit" class="btn btn-primary">Apply</button><br>
+    </form>
+    <table class="table table-striped"><br>
+      <thead>
+        <tr>
+          <th style="display:<%= (projectcolumns.id) ? "" : "none" %>">#</th>
+          <th style="display:<%= (projectcolumns.name) ? "" : "none" %>">Name</th>
+          <th style="display:<%= (projectcolumns.members) ? "" : "none" %>">Members</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody><% console.log(admin.firstname) %>
+        <% for(let i = 0; i < data.length; i++ ){ %>
+          <tr>
+            <a><td style="display:<%= (projectcolumns.id) ? "" : "none" %>" ><a href="/projects/projectdetails/<%= data[i].id %>/overview"><b><%= data[i].id %></b></a></td>
+            <td style="display:<%= (projectcolumns.name) ? "" : "none" %>"><%= data[i].name %></td>
+            <td style="display:<%= (projectcolumns.members) ? "" : "none" %>"><%= data[i].members.join(', ') %></td>
+            <td>
+              <a class="btn btn-success" href="/projects/edit/<%= data[i].id %>" <%= (admin.firstname == 'Gabon') ? "" : "hidden" %>>Edit</a>
+              <a class="btn btn-danger"  href="/projects/delete/<%= data[i].id %>" <%= (admin.firstname == 'Gabon') ? "" : "hidden" %>>Delete</a>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="<%= (pagination.url == `/` || pagination.page == 1) ? pagination.url : pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a></li>
+          <% for(let i = 1; i <= pagination.pages; i++ ){ %>
+            <li class="page-item <%= (i == pagination.page) ? ' active' : ''; %>">
+              <a class="page-link" href="<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>">
+                <%= i %>
+              </a>
+            </li>
+            <% } %>
+            <li class="page-item"><a class="page-link" href="<%= (pagination.page == pagination.pages) ? pagination.url : pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a></li>
+          </ul>
+        </nav>
+        <a href="/projects/add" style="margin-left: 10px" class="btn btn-primary">Add</a>
+    </body>
+    </html>

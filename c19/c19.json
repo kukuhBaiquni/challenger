@@ -1,0 +1,34 @@
+[
+   {
+      "id": "1",
+      "string": "erwrew",
+      "integer": "345",
+      "float": "0.9",
+      "date": "2018-03-07",
+      "boolean": "true"
+   },
+   {
+      "id": "4",
+      "string": "kosong",
+      "integer": "0",
+      "float": "0",
+      "date": "",
+      "boolean": "true"
+   },
+   {
+      "id": "2",
+      "string": "kosong",
+      "integer": "0",
+      "float": "0",
+      "date": "",
+      "boolean": "true"
+   },
+   {
+      "id": "3",
+      "string": "a",
+      "integer": "1",
+      "float": "2",
+      "date": "2018-03-14",
+      "boolean": "false"
+   }
+]

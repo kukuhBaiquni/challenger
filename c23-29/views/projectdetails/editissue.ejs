@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>edit issue</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel='stylesheet' href="/stylesheets/20.css">
+</head>
+<body>
+  <% include ../partials/menu %>
+  <form action="" method="post">
+    <div class="row">
+      <div class="col-md-2" id="sidemenu">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-top: 20px">
+          <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/projects<%= pagination.url.slice(0, 18) %>/overview" role="tab" aria-controls="v-pills-home" aria-selected="true" style="width: 105%">Overview</a>
+          <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="/projects<%= pagination.url.slice(0, 18) %>/activity" role="tab" aria-controls="v-pills-profile" aria-selected="false" style="width: 105%">Activity</a>
+          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="/projects<%= pagination.url.slice(0, 18) %>/members" role="tab" aria-controls="v-pills-messages" aria-selected="false" style="width: 105%">Members</a>
+          <a class="nav-link active" id="v-pills-settings-tab" data-toggle="pill" href="/projects<%= pagination.url.slice(0, 18) %>/issues" role="tab" aria-controls="v-pills-settings" aria-selected="false" style="width: 105%">Issues</a>
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"></div>
+          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"></div>
+          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab"></div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <h1>Edit Issue</h1><hr><br>
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-1">
+            <h6>Tracker</h6>
+          </div>
+          <div class="col-md-1" style="margin-left: 40px">
+            <div class="custom-control custom-radio">
+              <input type="radio" id="customRadio1" name="tracker" class="custom-control-input" value="Bug" <%= (issues[0].tracker == "Bug") ? "checked" : ""; %>>
+              <label class="custom-control-label" for="customRadio1">Bug</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="customRadio2" name="tracker" class="custom-control-input" value="Feature" <%= (issues[0].tracker == "Feature") ? "checked" : ""; %>>
+              <label class="custom-control-label" for="customRadio2">Feature</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="customRadio3" name="tracker" class="custom-control-input" value="Support" <%= (issues[0].tracker == "Support") ? "checked" : ""; %>>
+              <label class="custom-control-label" for="customRadio3">Support</label>
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Subject</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="text" class="form-control" id="colFormLabel" placeholder="Subject" name="subject" value="<%= (issues[0].subject) %>">
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Description</h6>
+          </div>
+          <div class="col-md-9" style="margin-left:-10px">
+            <div class="form-group">
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description" name="description"><%= issues[0].description %></textarea>
+            </div>
+          </div><br>
+        </div>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Status</h6>
+          </div>
+          <div class="col-md-2">
+            <div class="col-md-9" style="margin-left: 30px">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio4" name="status" class="custom-control-input" value="New" <%= (issues[0].status == "New") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio4">New</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio5" name="status" class="custom-control-input" value="In Progress" <%= (issues[0].status == "In Progress") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio5">In Progress</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio6" name="status" class="custom-control-input" value="Resolved" <%= (issues[0].status == "Resolved") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio6">Resolved</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio7" name="status" class="custom-control-input" value="Feedback" <%= (issues[0].status == "Feedback") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio7">Feedback</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio8" name="status" class="custom-control-input" value="Closed" <%= (issues[0].status == "Closed") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio8">Closed</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio9" name="status" class="custom-control-input" value="Rejected" <%= (issues[0].status == "Rejected") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio9">Rejected</label>
+              </div>
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Priority</h6>
+          </div>
+          <div class="col-md-1">
+            <div class="col-md-2" style="margin-left:30px">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio10" name="priority" class="custom-control-input" value="Normal" <%= (issues[0].priority == "Normal") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio10">Normal</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio11" name="priority" class="custom-control-input" value="High" <%= (issues[0].priority == "High") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio11">High</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio12" name="priority" class="custom-control-input" value="Urgent" <%= (issues[0].priority == "Urgent") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio12">Urgent</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio13" name="priority" class="custom-control-input" value="Immediate" <%= (issues[0].priority == "Immediate") ? "checked" : ""; %>>
+                <label class="custom-control-label" for="customRadio13">Immediate</label>
+              </div>
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Assignee</h6>
+          </div>
+          <div class="col-md-9" style="margin-left:40px">
+            <select class="custom-select" name="assignee">
+              <option value=null>Choose Assignee</option>
+              <% for(let i=0; i < getName.length; i++){ %>
+              <option value="<%= getName[i].userid %>" <%= (getName[i].userid == issues[0].assignee) ? "selected" : ""; %>><%= getName[i].firstname %> <%= getName[i].lastname %></option>
+              <% } %>
+            </select>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Start Date</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="date" class="form-control" id="colFormLabel" placeholder="Start Date" name="startdate" value=<%= pagination.getStartDate %>>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Due Date</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="date" class="form-control" id="colFormLabel" placeholder="Due date" name="startdate2" value=<%= pagination.getDueDate %> %>>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Estimated Time</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="text" class="form-control" id="colFormLabel" placeholder="Due date" name="estimated" value="<%= issues[0].estimatedtime %>">
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>% done</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: 40px">
+            <select class="custom-select" name="progress">
+              <option value=null <%= (issues[0].done == 0) ? "selected" : ""; %>>0</option>
+              <option value=25 <%= (issues[0].done == 25) ? "selected" : ""; %>>25</option>
+              <option value=50 <%= (issues[0].done == 50) ? "selected" : ""; %>>50</option>
+              <option value=75 <%= (issues[0].done == 75) ? "selected" : ""; %>>75</option>
+              <option value=100 <%= (issues[0].done == 100) ? "selected" : ""; %>>100</option>
+            </select>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>file</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="text" class="form-control" id="colFormLabel" placeholder="" name="files" value="<%= issues[0].files %>">
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Spent Time</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="text" class="form-control" id="colFormLabel" placeholder="Spent Time" value="<%= issues[0].spenttime %>" name="spenttime">
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Target Version</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="text" class="form-control" id="colFormLabel" placeholder="Target Version" value="<%= issues[0].targetversion %>" name="targetversion">
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Author</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: 40px">
+            <select readonly class="custom-select" name="author">
+              <option selected value=<%= pagination.userlog[0] %>> <%= num.filter(x=>x.userid == pagination.userlog[0]).map(z=>z.firstname) %> </option>
+            </select>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Created Date</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="date" class="form-control" id="colFormLabel" placeholder="" name="createddate" value=<%= pagination.getCreatedDate %>><%console.log(typeof pagination.getCreatedDate, 'ggwp')%>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Updated Date</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="date" class="form-control" id="colFormLabel" placeholder="" name="updateddate" value=<%= pagination.getUpdatedDate %>>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Closed Date</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="date" class="form-control" id="colFormLabel" placeholder="" name="closeddate" value=<%= pagination.getClosedDate %>>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <h6>Parrent Task</h6>
+          </div>
+          <div class="col-md-9" style="margin-left: -10px">
+            <input type="number" class="form-control" id="colFormLabel" placeholder="" name="parrenttask" value=<%= issues[0].parrenttask %>>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <button type="submit" class="btn btn-primary" name="button">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+</html>

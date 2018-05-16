@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Members</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel='stylesheet' href="/stylesheets/20.css">
+</head>
+<body>
+  <% include ../partials/menu %>
+  <div class="row">
+    <div class="col-md-2" id="sidemenu">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-top: 20px">
+        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="<%= pagination.url.slice(0, 27) %>/overview" role="tab" aria-controls="v-pills-home" aria-selected="true" style="width: 105%">Overview</a>
+        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="<%= pagination.url.slice(0, 27) %>/activity" role="tab" aria-controls="v-pills-profile" aria-selected="false" style="width: 105%">Activity</a>
+        <a class="nav-link active" id="v-pills-messages-tab" data-toggle="pill" href="<%= pagination.url %>" role="tab" aria-controls="v-pills-messages" aria-selected="false" style="width: 105%">Members</a>
+        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="<%= pagination.url.slice(0, 27) %>/issues" role="tab" aria-controls="v-pills-settings" aria-selected="false" style="width: 105%">Issues</a>
+      </div>
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"></div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"></div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"></div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab"></div>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <h1 style="padding-left: 15px">Members</h1><hr>
+      <h2 style="padding-left: 15px">Filters</h2>
+      <form action="" method="get">
+        <input type="hidden" name="marker" value="<%=  %>">
+        <input type="hidden" name="page" value="1">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="custom-control custom-checkbox" id="tengah">
+              <input type="checkbox" class="custom-control-input" id="cid" name="cid" <%= (query.cid) ? " checked" : ""; %>>
+              <label class="custom-control-label" for="cid">ID
+              </label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <input class="form-control" type="number" placeholder="ID" name="id" value="<%= (query.id) %>">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="custom-control custom-checkbox" id="tengah">
+              <input type="checkbox" class="custom-control-input" id="cname" value="true" name="cname" <%= (query.cname) ? " checked" : ""; %>>
+              <label class="custom-control-label" for="cname">Name
+              </label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <input class="form-control" type="text" placeholder="Name" name="name" value="<%= (query.name) %>">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="custom-control custom-checkbox" id="tengah">
+              <input type="checkbox" class="custom-control-input" id="cmember" name="cpos" <%= (query.cpos) ? " checked" : ""; %>>
+              <label class="custom-control-label" for="cmember">Position
+              </label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <select class="custom-select form-control" name="position">
+              <option value="">Choose the position...</option>
+              <option value="Software Developer" <%= (query.position) == 'Software Developer' ? "selected" : ""; %>>Software Developer</option>
+              <option value="Manager" <%= (query.position) == 'Manager' ? "selected" : ""; %>>Manager</option>
+              <option value="Quality Assurance" <%= (query.position) == 'Quality Assurance' ? "selected" : ""; %>>Quality Assurance</option>
+            </select>
+          </div>
+        </div>
+        <button style="margin-left: 170px" type="submit" class="btn btn-primary">Search</button>
+      </form>
+      <h2 style="padding-left: 15px">Option</h2>
+      <div class="row">
+        <div class="col-md-1"><h6 style="padding-left: 20px">Columns</h6></div>
+        <div class="col-md-3">
+          <form action="<%= pagination.url.replace('members', 'membercolumns') %>" method="post">
+            <div style="margin-left: 28px" class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="ocid" value=true name="ocid" <%= (projectcolumns.id) ? "checked" : "" %>>
+              <label class="custom-control-label" for="ocid"><b>ID</b>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div style="margin-left: 162px" class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="ocname" value=true name="ocname" <%= (projectcolumns.name) ? "checked" : "" %>>
+          <label class="custom-control-label" for="ocname"><b>Name</b>
+          </label>
+        </div>
+        <div style="margin-left: 162px" class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="ocpos" value=true name="ocpos" <%= (projectcolumns.members) ? "checked" : "" %>>
+          <label class="custom-control-label" for="ocpos"><b>Position</b>
+          </label>
+        </div><br>
+        <button style="margin-left: 10px" type="submit" class="btn btn-primary">Apply</button><br>
+      </form>
+      <table class="table table-striped"><br>
+        <thead>
+          <tr>
+            <th style="display:<%= (projectcolumns.id) ? "" : "none" %>">#</th>
+            <th style="display:<%= (projectcolumns.name) ? "" : "none" %>">Name</th>
+            <th style="display:<%= (projectcolumns.members) ? "" : "none" %>">Position</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i < members.length; i++ ){ %>
+            <tr>
+              <a><td style="display:<%= (projectcolumns.id) ? "" : "none" %>" ><%= members[i].userid %></td>
+                <td style="display:<%= (projectcolumns.name) ? "" : "none" %>"><%= members[i].firstname %> <%= members[i].lastname %></td>
+                <td style="display:<%= (projectcolumns.members) ? "" : "none" %>"><%= members[i].position %></td>
+                <td>
+                  <a href="/projects/projectdetails/<%= members[i].projectid %>/members/deletemember/<%= members[i].userid %>"><button class="btn btn-danger">Delete</button></a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="<%= (pagination.url == `/projectdetails/members[0].projectid/members` || pagination.page == 1) ? pagination.url : pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a></li>
+              <% for(let i = 1; i <= pagination.pages; i++ ){ %>
+                <li class="page-item <%= (i == pagination.page) ? ' active' : ''; %>">
+                  <a class="page-link" href="<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>">
+                    <%= i %>
+                  </a>
+                </li>
+                <% } %>
+                <li class="page-item"><a class="page-link" href="<%= (pagination.page == pagination.pages) ? pagination.url : pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a></li>
+              </ul>
+            </nav>
+          </body>
+          </html>
+        </div>
+      </div>
+    </body>
+    </html>

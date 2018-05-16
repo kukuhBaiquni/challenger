@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Crud 20</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <h1>BREAD(Browse,Read,Edit,Add,Delete)</h1>
+  <h2>Filter</h2>
+  <br>
+  <form action="" method="GET">
+    <input type="hidden" name="page" value="1">
+    <!--ID field-->
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" name="cid" class="custom-control-input" id="cid" onclick="checkBox1()"<%= (query.cid) ? " checked" : ""; %>>
+      <label class="custom-control-label" for="cid"></label>
+      <label for="id" class="lolid">ID
+        <input type="number" class="form-control" style="width:1000px" id="id" name="id" value="<%= query._id %>" placeholder="ID" <%= (query.cid) ? "" : " disabled"; %>></label>
+        <script type="text/javascript">
+        var idCheck = document.getElementById('cid');
+        var idInput = document.getElementById('id');
+
+        function checkBox1(){
+          if(idCheck.checked){
+            idInput.disabled = false;
+          }else{
+            idInput.disabled = true;
+          }
+        }
+        </script>
+      </div>
+      <!--String field-->
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" name="stringC" class="custom-control-input" id="customCheck2" onclick="checkBox2()" <%= (query.stringC) ? " checked" : ""; %>>
+        <label class="custom-control-label" for="customCheck2"></label>
+        <label for="string" class="lolid">String
+          <input type="text" class="form-control" style="width:1000px" id="string" name="string" value="<%= query.string %>" placeholder="String" <%= (query.stringC) ? "" : " disabled"; %>></label>
+          <script type="text/javascript">
+          var idCheck2 = document.getElementById('customCheck2');
+          var idInput2 = document.getElementById('string');
+
+          function checkBox2(){
+            if(idCheck2.checked){
+              idInput2.disabled = false;
+            }else{
+              idInput2.disabled = true;
+            }
+          }
+          </script>
+        </div>
+        <!--Integer field-->
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" name="integerC" class="custom-control-input" id="customCheck3" onclick="checkBox3()" <%= (query.integerC) ? " checked" : ""; %>>
+          <label class="custom-control-label" for="customCheck3"></label>
+          <label for="integer" class="lolid">Integer
+            <input type="number" class="form-control" style="width:1000px" id="integer" value="<%= query.integer %>" name="integer" placeholder="Integer" <%= (query.integerC) ? "" : " disabled"; %>></label>
+            <script type="text/javascript">
+            var idCheck3 = document.getElementById('customCheck3');
+            var idInput3 = document.getElementById('integer');
+
+            function checkBox3(){
+              if(idCheck3.checked){
+                idInput3.disabled = false;
+              }else{
+                idInput3.disabled = true;
+              }
+            }
+            </script>
+          </div>
+          <!--Float field-->
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" name="floatC" class="custom-control-input" id="customCheck4" onclick="checkBox4()" <%= (query.floatC) ? " checked" : ""; %>>
+            <label class="custom-control-label" for="customCheck4"></label>
+            <label for="float" class="lolid">Float
+              <input type="number" step="0.01" min="0" max="10" class="form-control" style="width:1000px" id="float" value="<%= query.float %>" name="float" placeholder="float" <%= (query.floatC) ? "" : " disabled"; %>></label>
+              <script type="text/javascript">
+              var idCheck4 = document.getElementById('customCheck4');
+              var idInput4 = document.getElementById('float');
+
+              function checkBox4(){
+                if(idCheck4.checked){
+                  idInput4.disabled = false;
+                }else{
+                  idInput4.disabled = true;
+                }
+              }
+              </script>
+            </div>
+            <!--Date field-->
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="dateC" class="custom-control-input" id="customCheck5" onclick="checkBox5()" <%= (query.dateC) ? " checked" : ""; %>>
+              <label class="custom-control-label" for="customCheck5"></label>
+              <label for="date" class="lolid">Date
+                <input type="date" min="2010-12-31" max="2018-03-20" class="form-control" style="width:250px" id="date"value="<%= query.date %>" name="date" placeholder="start date" <%= (query.date) ? "" : " disabled"; %>></label>
+                <label for="date2" style="font-size:20px;">to
+                  <input type="date" max="2018-03-20" min="2010-12-31" class="form-control" style="width:250px" id="date2" value="<%= query.date2 %>" name="date2" placeholder="end date" <%= (query.date2) ? "" : " disabled"; %>></label>
+                  <script type="text/javascript">
+                  var idCheck5 = document.getElementById('customCheck5');
+                  var idInput5 = document.getElementById('date');
+                  var idInput51 = document.getElementById('date2');
+
+                  function checkBox5(){
+                    if(idCheck5.checked){
+                      idInput5.disabled = false;
+                      idInput51.disabled = false;
+                    }else{
+                      idInput5.disabled = true;
+                      idInput51.disabled = true;
+                    }
+                  }
+                  </script>
+                </div>
+                <!--Boolean field-->
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" name="booleanC" class="custom-control-input" id="customCheck6" onclick="checkBox6()" <%= (query.booleanC) ? " checked" : ""; %>>
+                  <label class="custom-control-label" for="customCheck6"></label>
+                  <label for="boolean" class="lolid">Boolean
+                    <select class="form-control" id="boolean" name="boolean" <%= (query.boolean) ? "" : " disabled"; %>>
+                      <option value="true"<%= (query.boolean == "true") ? ' selected' : '' %>>true</option>
+                      <option value="false"<%= (query.boolean == "false") ? ' selected' : '' %>>false</option>
+                    </select>
+                  </label>
+                  <script type="text/javascript">
+                  var idCheck6 = document.getElementById('customCheck6');
+                  var idInput6 = document.getElementById('boolean');
+
+                  function checkBox6(){
+                    if(idCheck6.checked){
+                      idInput6.disabled = false;
+                    }else{
+                      idInput6.disabled = true;
+                    }
+                  }
+                  </script>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a class="btn btn-warning" href="/">Reset</a>
+              </form>
+              <br><br>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>String</th>
+                    <th>Integer</th>
+                    <th>Float</th>
+                    <th>Date</th>
+                    <th>Boolean</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let i = 0; i < data.length; i++ ){ %>
+                    <tr>
+                      <td><%= data[i]._id %></td>
+                      <td><%= data[i].string %></td>
+                      <td><%= data[i].integer %></td>
+                      <td><%= data[i].float %></td>
+                      <td><%= data[i].date %></td>
+                      <td><%= data[i].boolean %></td>
+                      <td>
+                        <a href="edit/<%= data[i]._id %>" class="btn btn-success">Edit</a>
+                        <a href="delete/<%= data[i]._id %>" class="btn btn-danger">Delete</a>
+                      </td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="<%= (pagination.url2 == `/` || pagination.page == 1) ? pagination.url2 : pagination.url2.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)-1}`) %>">Previous</a></li>
+                    <% for(let i = 1; i <= pagination.pages; i++ ){ %>
+                    <li class="page-item <%= (i == pagination.page) ? ' active' : ''; %>"><a class="page-link" href="<%= pagination.url2.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a></li>
+                    <% } %>
+                    <li class="page-item"><a class="page-link" href="<%= (pagination.page == pagination.pages) ? pagination.url2 : pagination.url2.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page)+1}`) %>">Next</a></li>
+                  </ul>
+                </nav>
+                <a class="btn btn-primary" href="add">Add</a>
+              </body>
+              </html>

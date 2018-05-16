@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CMS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/adc.css' />
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+  <% include partials/menu %>
+  <div class="addbutton"></div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary" id="add">
+        <span class="glyphicon glyphicon-plus"></span>
+        <b>add</b>
+    </button>
+  </div>
+</div><br>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <div class="magic">
+      <br>
+      <form class="form-inline" style="margin-left:20px" id="dataForm">
+        <div class="form-group">
+          <label for="exampleInputName2">Letter</label>
+          <input type="date" class="form-control" id="addletter" placeholder="A" name="addletter">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail2">Frequency</label>
+          <input type="number" step="0.0001" min="0" max="10000" class="form-control" id="addfrequency" placeholder="0.0000" name="addfrequency">
+        </div>
+        <button type="button" class="btn btn-default" id="save"> <b>Save</b> </button>
+      </form>
+      <br>
+    </div>
+    <br>
+    <div class="magicupdate">
+      <br>
+      <form class="form-inline" style="margin-left:20px" id="dataForm">
+        <div class="form-group">
+          <label for="exampleInputName2">Letter</label>
+          <input type="date" class="form-control" id="updtletter" placeholder="A" name="updtletter">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail2">Frequency</label>
+          <input type="number" step="0.01" min="0" max="10000" class="form-control" id="updtfrequency" placeholder="0.0000" name="updtfrequency">
+        </div>
+        <button type="button" class="btn btn-default" id="updt"> <b>Update</b> </button>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
+<div class="row" id="geser">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <h3>Search</h3>
+    <hr>
+  </div>
+</div>
+<form class="form-inline" style="margin-left: 158px">
+  <div class="form-group">
+    <label for="exampleInputName2">Letter</label>
+    <input type="date" class="form-control" id="sletter" placeholder="A">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail2">Frequency</label>
+    <input type="number" step="0.01" min="0" max="100000" class="form-control" id="sfrequency" placeholder="0.0000">
+  </div>
+</form>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <table id="tabledata" class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Letter</th>
+          <th>Frequency</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js"></script>
+<script type="text/javascript">
+
+function loadData(){
+  $.ajax({
+    type : "GET",
+    url : "http://localhost:3000/api/datadate",
+    data : {get_param: 'value'},
+    dataType : 'json',
+    success : function(data){
+      var num = 0;
+      let html = ''
+
+      data.forEach(function(data){
+        num++
+        html += '\
+        <tr>\
+        <td class="id">' + num + '</td>\
+        <td class="letter">'+moment(data.letter).format('YYYY-MM-DD')+'</td>\
+        <td class="freq">'+data.frequency+'</td>\
+        <td>\
+        <button type="button" name="button" class="btn btn-success btnupdate" iddata="'+data._id+'">\
+        <span class="glyphicon glyphicon-pencil"></span>\
+        <b>Update</b>\
+        </button>\
+        <button type="button" name="button" class="btn btn-danger btndelete" iddata="'+data._id+'" onclick="deleting()">\
+        <span class="glyphicon glyphicon-trash"></span>\
+        <b>Delete</b>\
+        </button>\
+        </td>\
+        </tr>\
+        ';
+      })
+      $('#tabledata tbody').html(html);
+    }
+  })
+}
+
+let next = false;
+function deleting(){
+  var check = confirm('apakan anda yakin ingin menghapus?')
+  if(check){
+    next = true;
+  }else{
+    next = false;
+  }
+}
+
+$(document).ready(function(){
+
+  loadData();
+  let id = ''
+  $("#tabledata tbody").on('click', '.btndelete', function(){
+    id = $(this).attr('iddata');
+    if (next) {
+      $.ajax({
+        type : "DELETE",
+        url : "http://localhost:3000/api/datadate/"+id,
+        contentType : "application/json; charset=utf-8",
+        dataType : "json",
+        success : function(data){
+          loadData()
+        }
+      })
+    }
+  })
+
+  $("#tabledata tbody").on('click', '.btnupdate', function(){
+    id = $(this).attr('iddata');
+    let rowEl = $(this).closest('tr');
+    var oL = rowEl.find('.letter').text();
+    var oF = rowEl.find('.freq').text();
+    $('#updtletter').val(oL);
+    $('#updtfrequency').val(oF);
+    $(".magicupdate").toggle();
+  })
+
+  $("#updt").click(function(){
+    let request = {
+      updtletter : $('#updtletter').val(),
+      updtfrequency : $('#updtfrequency').val()
+    }
+    $.ajax({
+      type : "PUT",
+      url : "http://localhost:3000/api/datadate/"+id,
+      data : JSON.stringify(request),
+      contentType : "application/json; charset=utf-8",
+      dataType : "json",
+      success : function(data){
+        loadData()
+        $(".magicupdate").hide()
+      }
+    })
+  });
+
+  $("#add").click(function(){
+    $(".magic").toggle();
+  });
+
+  $("#save").click(function(){
+    let send = {
+      addletter : $('#addletter').val(),
+      addfrequency : $('#addfrequency').val()
+    }
+    console.log($('#addletter').val());
+    console.log(typeof $('#addletter').val());
+    $.ajax({
+      type : "POST",
+      url : "http://localhost:3000/api/datadate",
+      data : JSON.stringify(send),
+      contentType : "application/json; charset=utf-8",
+      dataType : "json",
+      success : function(data){
+        $("form").trigger("reset");
+        loadData();
+        $(".magic").hide()
+      }
+    })
+  });
+});
+
+$(document).on('input', '#sfrequency', function(){
+  var data = {
+    sletter : $('#sletter').val(),
+    sfrequency : $('#sfrequency').val()
+  }
+  if ($('#sletter').val().length==0 && $('#sfrequency').val().length==0) {
+    loadData()
+  }else{
+    $.ajax({
+      type : "POST",
+      url : "http://localhost:3000/api/datadate/search",
+      data : JSON.stringify(data),
+      contentType : "application/json; charset=utf-8",
+      dataType : 'json',
+      success : function(response){
+        var num = 0;
+        let html = ''
+
+        response.forEach(function(response){
+          num++
+          html += '\
+          <tr>\
+          <td class="id">' + num + '</td>\
+          <td class="letter">'+moment(response.letter).format('YYYY-MM-DD')+'</td>\
+          <td class="freq">'+response.frequency+'</td>\
+          <td>\
+          <button type="button" name="button" class="btn btn-success btnupdate" iddata="'+data._id+'">\
+          <span class="glyphicon glyphicon-pencil"></span>\
+          <b>Update</b>\
+          </button>\
+          <button type="button" name="button" class="btn btn-danger btndelete" iddata="'+data._id+'" onclick="deleting()">\
+          <span class="glyphicon glyphicon-trash"></span>\
+          <b>Delete</b>\
+          </button>\
+          </td>\
+          </tr>\
+          ';
+        })
+        $('#tabledata tbody').html(html);
+      }
+    })
+  }
+})
+
+$(document).on('input', '#sletter', function(){
+  var date = $('#sletter').val()
+  var data = {
+    sletter : $('#sletter').val(),
+    sfrequency : $('#sfrequency').val()
+  }
+  console.log(typeof $('#sletter').val());
+  console.log($('#sletter').val());
+
+  if ($('#sletter').val().length==0 && $('#sfrequency').val().length==0) {
+    loadData()
+  }else{
+    $.ajax({
+      type : "POST",
+      url : "http://localhost:3000/api/datadate/search",
+      data : JSON.stringify(data),
+      contentType : "application/json; charset=utf-8",
+      dataType : 'json',
+      success : function(response){
+        var num = 0;
+        let html = ''
+
+        response.forEach(function(response){
+          console.log(response);
+          num++
+          html += '\
+          <tr>\
+          <td class="id">' + num + '</td>\
+          <td class="letter">'+moment(response.letter).format('YYYY-MM-DD')+'</td>\
+          <td class="freq">'+response.frequency+'</td>\
+          <td>\
+          <button type="button" name="button" class="btn btn-success btnupdate" iddata="'+data._id+'">\
+          <span class="glyphicon glyphicon-pencil"></span>\
+          <b>Update</b>\
+          </button>\
+          <button type="button" name="button" class="btn btn-danger btndelete" iddata="'+data._id+'" onclick="deleting()">\
+          <span class="glyphicon glyphicon-trash"></span>\
+          <b>Delete</b>\
+          </button>\
+          </td>\
+          </tr>\
+          ';
+        })
+        $('#tabledata tbody').html(html);
+      }
+    })
+  }
+})
+</script>
+</body>
+</html>

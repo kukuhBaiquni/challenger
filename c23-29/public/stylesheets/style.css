@@ -1,0 +1,18 @@
+body {
+  background-color: #DEDEDE;
+  padding: 50px;
+  font: 14px "Arial", Helvetica, Arial, sans-serif;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 250px;
+  margin-left: 625px;
+  padding-top: 200px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#navbartop {
+  background-color: black !important;
+}

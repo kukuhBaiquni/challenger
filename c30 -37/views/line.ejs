@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+margin = {top: 20, right: 20, bottom: 30, left: 50},
+width = +svg.attr("width") - margin.left - margin.right,
+height = +svg.attr("height") - margin.top - margin.bottom,
+g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scaleTime()
+.rangeRound([0, width]);
+
+var y = d3.scaleLinear()
+.rangeRound([height, 0]);
+
+var line = d3.line()
+.x(function(d) { return x(d.letter); })
+.y(function(d) { return y(d.frequency); });
+
+$.ajax({
+  type : "GET",
+  url : "http://localhost:3000/api/datadate",
+  data : {get_param: 'value'},
+  dataType : 'json',
+  success : function(data){
+
+  var parseTime = d3.timeParse("%d-%b-%y");
+    for(let i=0; i<data.length; i++){
+      data[i].letter = moment(data[i].letter).format('D-MMM-YY');
+      data[i].frequency = parseInt(data[i].frequency)
+    }
+
+    for(let j=0; j<data.length; j++){
+      data[j].letter = parseTime(data[j].letter)
+    }
+    console.log(data);
+    x.domain(d3.extent(data, function(d) { return d.letter; }));
+    y.domain(d3.extent(data, function(d) { return d.frequency; }));
+
+    g.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .select(".domain")
+    .remove();
+
+    g.append("g")
+    .call(d3.axisLeft(y))
+    .append("text")
+    .attr("fill", "#000")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", "0.71em")
+    .attr("text-anchor", "end")
+    .text("Frequency)");
+
+    g.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "steelblue")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+  }
+})
+
+
+</script>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>add</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel='stylesheet' href="/stylesheets/2.css">
+</head>
+<body>
+<% include ../partials/menu %>
+  <h1 style="padding-left: 15px">Add Project</h1>
+  <hr>
+  <form action="" method="post">
+    <div class="row">
+      <div class="col-md-1">
+        <label style="margin-left: 70px" class="custom-control-label"><b>Name</b>
+        </label>
+      </div>
+      <div class="col-md-6">
+        <input class="form-control" name="project" type="text" placeholder="Project Name">
+      </div>
+    </div><br><br>
+    <div class="row">
+      <div class="col-md-1">
+        <label style="margin-left: 70px" class="custom-control-label"><b>Member</b>
+        </label>
+      </div>
+      <div class="col-md-4">
+        <% for(let i=0; i < users.length; i++ ){ %>
+        <div style="margin-left: 50px" class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="<%= i %>" name="members" value="<%= users[i].userid %>">
+          <label class="custom-control-label" for="<%= i %>"> <%= `${users[i].firstname} ${users[i].lastname}` %> </label>
+        </div>
+        <% } %>
+      </div>
+    </div><br>
+    <button style="margin-left: 70px" type="submit" class="btn btn-primary" name="add">Save</button>
+    </form>
+  </body>
+  </html>
